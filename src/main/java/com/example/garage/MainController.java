@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainController {
 
@@ -59,6 +60,9 @@ public class MainController {
         List<String> answer = SellingCarsByModel.getSellingCars(model);
         for (String car : answer) {
             String[] tokens = car.split("\\*");
+            String[] tokensSeller = Objects.requireNonNull(SellerInfo.getOwnerInfo(Integer.parseInt(tokens[0].split(" ")[1]))).split("\\*");
+            Label sellerName = new Label("Seller name: " + tokensSeller[0] + " " + tokensSeller[1]);
+            Label sellerRating = new Label("Seller rating: " + tokensSeller[2]);
             Label price = new Label(tokens[3]);
             Label year = new Label(tokens[4]);
             Label mileage = new Label(tokens[5]);
@@ -78,7 +82,7 @@ public class MainController {
             };
             buyButton.setOnAction(buyButtonClick);
             hBox.setSpacing(10);
-            hBox.getChildren().addAll(price, year, mileage, buyButton);
+            hBox.getChildren().addAll(sellerName, sellerRating, price, year, mileage, buyButton);
             buyCarVBox.getChildren().add(hBox);
         }
     }
